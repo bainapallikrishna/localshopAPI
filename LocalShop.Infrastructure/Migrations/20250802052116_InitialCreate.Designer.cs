@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalShop.Infrastructure.Migrations
 {
     [DbContext(typeof(LocalShopDbContext))]
-    [Migration("20250801064407_InitialCreate")]
+    [Migration("20250802052116_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,14 +34,15 @@ namespace LocalShop.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 #pragma warning restore 612, 618
         }

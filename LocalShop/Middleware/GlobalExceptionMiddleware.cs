@@ -7,7 +7,6 @@ namespace LocalShop.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger<GlobalExceptionMiddleware> _logger; // Fixed type name  
         private readonly string _logDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
-
         public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger) // Fixed constructor parameter type  
         {
             _next = next;

@@ -2,6 +2,7 @@ using LocalShop.Domain.Interfaces;
 using LocalShop.Infrastructure.Data;
 using LocalShop.Infrastructure.Repositories;
 using LocalShop.Middleware;
+using LocalShop.Services;
 using LocalShop.Services.Mapping;
 using LocalShop.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +34,8 @@ builder.Services.AddDbContext<LocalShopDbContext>(options =>
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfile>());
 

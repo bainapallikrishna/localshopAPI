@@ -3,6 +3,7 @@ using LocalShop.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalShop.Infrastructure.Migrations
 {
     [DbContext(typeof(LocalShopDbContext))]
-    partial class LocalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250802165009_rolespecifiedcommit")]
+    partial class rolespecifiedcommit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,26 +64,6 @@ namespace LocalShop.Infrastructure.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 1,
-                            RoleDescription = "System administrator",
-                            RoleName = "Admin"
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            RoleDescription = "Regular user",
-                            RoleName = "User"
-                        },
-                        new
-                        {
-                            RoleId = 3,
-                            RoleDescription = "Team manager",
-                            RoleName = "Manager"
-                        });
                 });
 
             modelBuilder.Entity("LocalShop.Domain.Models.User", b =>
@@ -106,29 +89,6 @@ namespace LocalShop.Infrastructure.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            Email = "alice@example.com",
-                            PasswordHash = "admin123hash",
-                            Username = "alice"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            Email = "bob@example.com",
-                            PasswordHash = "user123hash",
-                            Username = "bob"
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            Email = "charlie@example.com",
-                            PasswordHash = "manager123hash",
-                            Username = "charlie"
-                        });
                 });
 
             modelBuilder.Entity("LocalShop.Domain.Models.UserRole", b =>
@@ -152,26 +112,6 @@ namespace LocalShop.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserRoleId = 1,
-                            RoleId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            UserRoleId = 2,
-                            RoleId = 2,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            UserRoleId = 3,
-                            RoleId = 3,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("LocalShop.Domain.Models.UserRole", b =>

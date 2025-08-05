@@ -30,4 +30,10 @@
     <ProjectReference Include="..\LocalShop.Services\LocalShop.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\DTOs\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

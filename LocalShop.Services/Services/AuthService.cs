@@ -1,9 +1,9 @@
 using LocalShop.Domain.Models;
-using LocalShop.Infrastructure.Data;
 using LocalShop.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
+using LocalShop.Infrastructure.Data;
 
 namespace LocalShop.Services
 {

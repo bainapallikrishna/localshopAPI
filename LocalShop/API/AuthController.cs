@@ -1,5 +1,6 @@
 using LocalShop.Models.DTOs;
 using LocalShop.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocalShop.API
@@ -37,7 +38,7 @@ namespace LocalShop.API
                 return StatusCode(500, new { message = "Internal server error" });
             }
         }
-
+       
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] LoginRequest request)
         {
@@ -58,7 +59,7 @@ namespace LocalShop.API
                 return StatusCode(500, new { message = "Internal server error" });
             }
         }
-
+        [Authorize(Roles ="Admin")]
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] LoginRequest request)
         {

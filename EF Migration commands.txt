@@ -1,0 +1,21 @@
+cd LocalShop.Infrastructure
+dotnet ef migrations add InitialCreate --startup-project ../LocalShop
+dotnet ef database update --startup-project ../LocalShop
+
+dotnet ef migrations remove
+dotnet ef migrations add insertdatainrole --startup-project ../LocalShop
+
+dotnet ef database update --startup-project ../LocalShop --verbose
+
+dotnet ef migrations add InitialUserRoleSetup
+dotnet ef database update
+
+
+dotnet ef database update --project ../LocalShop.Infrastructure --startup-project ../LocalShop --verbose
+
+dotnet add package AutoMapper --version 13.0.1
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 13.0.1
+
+dotnet add package AutoMapper
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+

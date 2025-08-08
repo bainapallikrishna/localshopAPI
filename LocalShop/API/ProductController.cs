@@ -24,7 +24,7 @@ namespace LocalShop.API
         }
 
         [HttpGet("GetProduct")]
-        [AllowAnonymous]
+        
         public async Task<IActionResult> GetAll() => Ok(await _service.GetAllAsync());
 
         [HttpPost("CreateProduct")]

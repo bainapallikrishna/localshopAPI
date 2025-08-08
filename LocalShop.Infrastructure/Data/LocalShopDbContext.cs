@@ -22,6 +22,7 @@ namespace LocalShop.Infrastructure.Data
             modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Product>().Property(p => p.Description).IsRequired().HasMaxLength(200);
             modelBuilder.Entity<Product>().Property(p => p.Price).HasColumnType("decimal(18,2)");
                   modelBuilder.Entity<UserRole>()
             .HasOne(ur => ur.User)

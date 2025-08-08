@@ -12,7 +12,7 @@ namespace LocalShop.Domain.Models
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
-
+        public string Description { get; set; }
         public decimal Price { get; set; }
 
     }

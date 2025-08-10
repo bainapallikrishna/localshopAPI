@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalShop.Infrastructure.Migrations
 {
     [DbContext(typeof(LocalShopDbContext))]
-    [Migration("20250802165622_insertdatainrole")]
-    partial class insertdatainrole
+    [Migration("20250810070055_AddRatingToProduct")]
+    partial class AddRatingToProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -31,6 +31,16 @@ namespace LocalShop.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,21 +125,21 @@ namespace LocalShop.Infrastructure.Migrations
                         {
                             UserId = 1,
                             Email = "alice@example.com",
-                            PasswordHash = "admin123hash",
+                            PasswordHash = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             Username = "alice"
                         },
                         new
                         {
                             UserId = 2,
                             Email = "bob@example.com",
-                            PasswordHash = "user123hash",
+                            PasswordHash = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             Username = "bob"
                         },
                         new
                         {
                             UserId = 3,
                             Email = "charlie@example.com",
-                            PasswordHash = "manager123hash",
+                            PasswordHash = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             Username = "charlie"
                         });
                 });

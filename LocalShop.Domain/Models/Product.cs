@@ -11,9 +11,13 @@ namespace LocalShop.Domain.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Image { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
-        public string Description { get; set; }
         public decimal Price { get; set; }
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        [Column(TypeName = "decimal(3,2)")]
+        public decimal Rating { get; set; }
     }
 }

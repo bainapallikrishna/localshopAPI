@@ -28,8 +28,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Database configuration - supports both local and Azure SQL
+var connectionString = builder.Environment.IsDevelopment() 
+    ? builder.Configuration.GetConnectionString("ConnLocalShopDb")
+    : builder.Configuration.GetConnectionString("AzureSqlConnection");
+
 builder.Services.AddDbContext<LocalShopDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnLocalShopDb"),
+    options.UseSqlServer(connectionString,
          sqlOptions => sqlOptions.MigrationsAssembly("LocalShop.Infrastructure")
     ));
 

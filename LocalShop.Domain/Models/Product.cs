@@ -15,9 +15,5 @@ namespace LocalShop.Domain.Models
         public string Image { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        [Column(TypeName = "decimal(3,2)")]
-        public decimal Rating { get; set; }
     }
 }

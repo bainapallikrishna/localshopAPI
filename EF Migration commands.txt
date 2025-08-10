@@ -1,6 +1,15 @@
 cd LocalShop.Infrastructure
 dotnet ef migrations add InitialCreate --startup-project ../LocalShop
 dotnet ef database update --startup-project ../LocalShop
+===========================================================
+dotnet ef migrations add InitialCreate --project LocalShop.Infrastructure --startup-project LocalShop
+dotnet ef database update --project LocalShop.Infrastructure --startup-project LocalShop
+
+dotnet ef database drop --force --project LocalShop.Infrastructure --startup-project LocalShop
+
+
+migrationBuilder.Sql("UPDATE Products SET Description = 'Default' WHERE Description IS NULL");
+========================================================
 
 dotnet ef migrations remove
 dotnet ef migrations add insertdatainrole --startup-project ../LocalShop

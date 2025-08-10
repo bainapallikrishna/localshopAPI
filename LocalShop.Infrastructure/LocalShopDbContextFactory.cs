@@ -25,11 +25,24 @@ namespace LocalShop.Infrastructure
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .Build();
 
-            var connectionString = config.GetConnectionString("ConnLocalShopDb");
+            // Check environment - for design-time, prefer local database
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+            
+            string connectionString;
+            if (environment.Equals("Production", StringComparison.OrdinalIgnoreCase))
+            {
+                connectionString = config.GetConnectionString("AzureSqlConnection") 
+                    ?? config.GetConnectionString("ConnLocalShopDb");
+            }
+            else
+            {
+                // For Development and design-time, use local database
+                connectionString = config.GetConnectionString("ConnLocalShopDb");
+            }
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new InvalidOperationException("Connection string 'ConnLocalShopDb' not found in configuration.");
+                throw new InvalidOperationException($"No connection string found for environment: {environment}");
             }
 
             var optionsBuilder = new DbContextOptionsBuilder<LocalShopDbContext>();

@@ -28,3 +28,35 @@ dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version
 dotnet add package AutoMapper
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 
+
+=========================================================================
+
+Open Cloud Shell
+
+Go to Azure Portal
+
+Click the Cloud Shell icon at the top-right (looks like >_).
+
+Choose Bash or PowerShell (either works for zip deploy)
+
+The first time you open Cloud Shell, it might ask you to create storage — accept the defaults.
+
+Upload your file
+
+In the Cloud Shell window, look at the top-right corner.
+
+Click the three-dot menu (⋮).
+
+Select Upload (sometimes labeled Upload/Download files).
+
+Browse to C:\Krishna\BACKEND\LocalShop\publish.zip and select it.
+
+It will upload the file to your Cloud Shell home directory (~/).
+
+If you want to split across lines in PowerShell
+az webapp deployment source config-zip `
+  --resource-group LocalShopRG `
+  --name localshop `
+  --src publish.zip
+
+

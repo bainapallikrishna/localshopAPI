@@ -11,16 +11,13 @@ namespace LocalShop.Services
         string GenerateToken(string username, string email, List<string> roles);
         ClaimsPrincipal? ValidateToken(string token);
     }
-
     public class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
-
         public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-
         public string GenerateToken(string username, string email, List<string> roles)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not found in configuration")));
@@ -49,7 +46,6 @@ namespace LocalShop.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
         public ClaimsPrincipal? ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

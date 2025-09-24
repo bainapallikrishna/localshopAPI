@@ -28,6 +28,24 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// CORS for React dev server
+const string ReactDevCorsPolicy = "ReactDevCorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(ReactDevCorsPolicy, policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
+});
+
 // Database configuration - supports both local and Azure SQL
 var connectionString = builder.Environment.IsDevelopment() 
     ? builder.Configuration.GetConnectionString("ConnLocalShopDb")
@@ -46,6 +64,7 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfile>());
 
 builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -82,6 +101,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseCors(ReactDevCorsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwagger();

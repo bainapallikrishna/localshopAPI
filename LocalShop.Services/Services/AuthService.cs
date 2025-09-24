@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using LocalShop.Infrastructure.Data;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace LocalShop.Services
 {
@@ -13,17 +14,21 @@ namespace LocalShop.Services
         Task<bool> RegisterAsync(LoginRequest request, string role = "User");
         string HashPassword(string password);
         bool VerifyPassword(string password, string hash);
+        Task<bool> RequestOtpAsync(string username);
+        Task<LoginResponse?> VerifyOtpAsync(string username, string otp);
     }
 
     public class AuthService : IAuthService
     {
         private readonly LocalShopDbContext _context;
         private readonly IJwtService _jwtService;
+        private readonly IMemoryCache _memoryCache;
 
-        public AuthService(LocalShopDbContext context, IJwtService jwtService)
+        public AuthService(LocalShopDbContext context, IJwtService jwtService, IMemoryCache memoryCache)
         {
             _context = context;
             _jwtService = jwtService;
+            _memoryCache = memoryCache;
         }
 
         public async Task<LoginResponse?> AuthenticateAsync(LoginRequest request)
@@ -101,6 +106,50 @@ namespace LocalShop.Services
         {
             var hashedPassword = HashPassword(password);
             return hashedPassword == hash;
+        }
+
+        public async Task<bool> RequestOtpAsync(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username)) return false;
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null) return false;
+
+            var otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
+            _memoryCache.Set($"otp:{username}", otp, TimeSpan.FromMinutes(5));
+
+            // TODO: Integrate SMS/email provider. For now, we just log/store.
+            return true;
+        }
+
+        public async Task<LoginResponse?> VerifyOtpAsync(string username, string otp)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(otp)) return null;
+
+            if (!_memoryCache.TryGetValue<string>($"otp:{username}", out var expected) || expected != otp)
+            {
+                return null;
+            }
+
+            var user = await _context.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null) return null;
+
+            var roles = user.UserRoles.Select(ur => ur.Role.RoleName).ToList();
+            var token = _jwtService.GenerateToken(user.Username, user.Email, roles);
+
+            _memoryCache.Remove($"otp:{username}");
+
+            return new LoginResponse
+            {
+                Token = token,
+                Username = user.Username,
+                Email = user.Email,
+                Roles = roles,
+                ExpiresAt = DateTime.UtcNow.AddHours(24)
+            };
         }
     }
 } 

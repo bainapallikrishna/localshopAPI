@@ -10,23 +10,13 @@ using System.Threading.Tasks;
 
 namespace LocalShop.Infrastructure.Repositories
 {
-    public class ProductRepository:IProductRepository
+    public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
-        private readonly LocalShopDbContext _context;
-
-        public ProductRepository(LocalShopDbContext context)
+        public ProductRepository(LocalShopDbContext context) : base(context)
         {
-            _context = context;
         }
-
-        public async Task<IEnumerable<Product>> GetAllAsync() => await _context.Products.ToListAsync();
-
-        public async Task<Product?> GetByIdAsync(int id) => await _context.Products.FindAsync(id);
-
-        public async Task AddAsync(Product product)
-        {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-        }
+     
+        // Inherits GetAllAsync, GetByIdAsync, AddAsync from RepositoryBase
+        // Add product-specific queries here if needed
     }
 }

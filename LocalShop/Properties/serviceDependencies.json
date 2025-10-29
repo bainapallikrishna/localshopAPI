@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "apis1": {
-      "type": "apis"
-    },
     "identityapp1": {
       "type": "identityapp"
     },
@@ -10,6 +7,9 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:ConnLocalShopDb",
       "dynamicId": null
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }

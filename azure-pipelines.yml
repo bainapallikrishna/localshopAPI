@@ -7,7 +7,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: 'windows-latest'
+      name: 'SelfHosted'   # ✅ use your self-hosted agent
     variables:
       solution: '**/*.sln'
       buildPlatform: 'Any CPU'
